@@ -65,7 +65,7 @@ export function Hero() {
       id="top"
       onPointerMove={handleMove}
       onPointerLeave={recentre}
-      className="scene relative flex min-h-svh flex-col overflow-hidden px-4 pb-8 pt-24 sm:px-6 sm:pt-28"
+      className="scene relative flex min-h-svh flex-col overflow-hidden px-4 pb-8 pt-20 sm:px-6 sm:pt-28"
     >
       <div className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col">
         {/* The visible wordmark is decorative, so the page's real heading is
@@ -89,9 +89,13 @@ export function Hero() {
           <motion.div
             aria-hidden
             style={reduceMotion ? undefined : { x: wordX, y: wordY }}
-            className="pointer-events-none absolute inset-x-0 top-0 z-0 flex justify-center"
+            // On phones the wordmark sits in normal flow above the portrait.
+            // Overlapping there is not survivable: the portrait is anchored to
+            // the bottom of the space, so on a short viewport it grows upward
+            // over the letters. From `sm` up there is room to overlap again.
+            className="pointer-events-none relative z-0 flex w-full justify-center sm:absolute sm:inset-x-0 sm:top-0"
           >
-            <p className="relative flex items-start font-wordmark text-[clamp(3rem,15vw,12rem)] font-extrabold leading-[0.82] tracking-[-0.04em] text-ink">
+            <p className="relative flex items-start font-wordmark text-[clamp(3.25rem,17vw,12rem)] font-extrabold leading-[0.82] tracking-[-0.04em] text-ink">
               {WORDMARK.map((letter, index) => {
                 const fromLeft = letter.side === "left";
                 const enterX = fromLeft ? "-58vw" : "58vw";
@@ -162,7 +166,7 @@ export function Hero() {
                 initial={{ opacity: 0, y: -14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.95, ease: EASE_OUT_QUINT }}
-                className="absolute -right-2 -top-3 font-sans text-[0.16em] font-bold tracking-tight text-ink sm:-right-6"
+                className="absolute -right-1 -top-1 font-sans text-[0.16em] font-bold tracking-tight text-ink sm:-right-6 sm:-top-3"
               >
                 &rsquo;26
               </motion.span>
