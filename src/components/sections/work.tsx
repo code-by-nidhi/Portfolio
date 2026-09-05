@@ -44,7 +44,7 @@ export function Work() {
             <div
               role="tablist"
               aria-label="Filter projects"
-              className="flex shrink-0 gap-1 rounded-2xl border border-hairline bg-surface p-1.5 shadow-[0_4px_0_rgba(230,224,238,1)]"
+              className="flex shrink-0 flex-wrap gap-1 rounded-2xl border border-hairline bg-surface p-1.5 shadow-[0_4px_0_rgba(230,224,238,1)]"
             >
               {FILTERS.map((option) => (
                 <button
@@ -54,7 +54,7 @@ export function Work() {
                   aria-selected={filter === option.id}
                   onClick={() => setFilter(option.id)}
                   className={cn(
-                    "relative rounded-xl px-4 py-2 text-sm transition-colors",
+                    "relative rounded-xl px-3 py-2.5 text-xs transition-colors sm:px-4 sm:text-sm",
                     filter === option.id
                       ? "text-ink"
                       : "text-ink-muted hover:text-ink-soft",
@@ -94,7 +94,7 @@ export function Work() {
                       className="preserve-3d flex h-full flex-col"
                       style={{ transform: "translateZ(26px)" }}
                     >
-                      <div className="flex items-start justify-between gap-4">
+                      <div className="flex flex-wrap items-start justify-between gap-3">
                         <div>
                           <p
                             className={cn(
@@ -208,7 +208,7 @@ export function Work() {
             href={profile.github}
             target="_blank"
             rel="noreferrer noopener"
-            className="group inline-flex items-center gap-2 text-sm text-ink-soft transition-colors hover:text-lilac-deep"
+            className="group inline-flex items-center gap-2 py-2 text-sm text-ink-soft transition-colors hover:text-lilac-deep"
           >
             More on GitHub
             <ArrowUpRight

@@ -21,12 +21,12 @@ export function SiteFooter() {
           <p className="font-mono text-[0.7rem] uppercase tracking-[0.24em] text-ink-muted">
             Sections
           </p>
-          <ul className="mt-4 space-y-2">
+          <ul className="mt-3 space-y-1">
             {navItems.map((item) => (
               <li key={item.href}>
                 <a
                   href={item.href}
-                  className="text-sm text-ink-soft transition-colors hover:text-lilac-deep"
+                  className="inline-block py-1.5 text-sm text-ink-soft transition-colors hover:text-lilac-deep"
                 >
                   {item.label}
                 </a>

@@ -15,12 +15,55 @@ export function IdBadge({ children }: { children: ReactNode }) {
     <div className="flex w-full max-w-[20rem] flex-col items-center sm:max-w-[21rem]">
       {/* ---------- Lanyard ---------- */}
       <div aria-hidden className="relative -mb-2 flex h-44 w-full justify-center">
-        {/* Woven strap, running up out of view */}
-        <div className="relative h-[9rem] w-11 [mask-image:linear-gradient(to_bottom,transparent_0%,#000_16%)] bg-[linear-gradient(90deg,#b1a488_0%,#e2d9c5_42%,#c3b79c_70%,#a99c80_100%)] shadow-[0_3px_8px_rgba(38,34,49,0.16)]">
-          <div className="absolute inset-0 opacity-25 bg-[repeating-linear-gradient(0deg,transparent_0_3px,rgba(38,34,49,0.35)_3px_4px)]" />
-          {/* Crimped metal end */}
-          <div className="absolute -bottom-1.5 left-1/2 h-3.5 w-[3.25rem] -translate-x-1/2 rounded-[3px] bg-[linear-gradient(90deg,#8f8d97,#eceaf0_45%,#8f8d97)] shadow-[0_1px_3px_rgba(38,34,49,0.3)]" />
+        {/* The ribbon runs up past this box so the badge reads as hanging
+            rather than floating, but stays inside the About section — it must
+            not cross the tech strip above. Its top dissolves rather than
+            ending on a hard edge. */}
+        <div className="absolute bottom-[1.6rem] left-1/2 h-[12rem] w-[13rem] -translate-x-1/2 [mask-image:linear-gradient(to_bottom,transparent_0%,#000_34%)] sm:h-[15rem]">
+          <svg viewBox="0 0 208 480" className="h-full w-full">
+            <defs>
+              <linearGradient id="ribbon" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#a99c80" />
+                <stop offset="30%" stopColor="#e2d9c5" />
+                <stop offset="62%" stopColor="#c9bda2" />
+                <stop offset="100%" stopColor="#9d906f" />
+              </linearGradient>
+              <linearGradient id="ribbonBack" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#7f7358" />
+                <stop offset="100%" stopColor="#b4a688" />
+              </linearGradient>
+            </defs>
+
+            {/* Band */}
+            <path
+              d="M188 -12 C 180 96, 126 150, 118 248 C 112 330, 104 398, 104 492"
+              fill="none"
+              stroke="url(#ribbon)"
+              strokeWidth="44"
+            />
+            {/* Weave, as rungs across the band */}
+            <path
+              d="M188 -12 C 180 96, 126 150, 118 248 C 112 330, 104 398, 104 492"
+              fill="none"
+              stroke="rgba(38,34,49,0.13)"
+              strokeWidth="44"
+              strokeDasharray="2 4"
+            />
+            {/* A twist: the band folds and the darker underside shows */}
+            <path
+              d="M96 242 L140 224 L140 250 L96 268 Z"
+              fill="url(#ribbonBack)"
+            />
+            <path
+              d="M96 242 L140 224"
+              stroke="rgba(38,34,49,0.28)"
+              strokeWidth="1.5"
+            />
+          </svg>
         </div>
+
+        {/* Crimped metal end */}
+        <div className="absolute bottom-[1.45rem] left-1/2 h-3.5 w-[3.25rem] -translate-x-1/2 rounded-[3px] bg-[linear-gradient(90deg,#8f8d97,#eceaf0_45%,#8f8d97)] shadow-[0_1px_3px_rgba(38,34,49,0.3)]" />
 
         {/* Swivel clasp hooked through the card */}
         <svg

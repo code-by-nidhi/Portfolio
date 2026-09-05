@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 
 export function About() {
   return (
-    <section id="about" className="scene relative pb-20 pt-10 sm:pb-24 sm:pt-14">
+    <section id="about" className="scene relative overflow-hidden pb-20 pt-10 sm:pb-24 sm:pt-14">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="grid gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-16">
           {/* ---------- Left: who I am ---------- */}

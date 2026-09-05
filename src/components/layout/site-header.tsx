@@ -39,7 +39,7 @@ export function SiteHeader() {
       >
         <a
           href="#top"
-          className="font-display text-lg tracking-[0.2em] text-ink transition-colors hover:text-lilac-deep"
+          className="py-1 font-display text-lg tracking-[0.2em] text-ink transition-colors hover:text-lilac-deep"
         >
           {profile.wordmark}
           <span className="text-lilac">.</span>

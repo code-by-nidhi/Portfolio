@@ -58,7 +58,7 @@ export function Contact() {
                   href={profile.github}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="inline-flex items-center gap-2 transition-colors hover:text-lilac-deep"
+                  className="inline-flex items-center gap-2 py-1.5 transition-colors hover:text-lilac-deep"
                 >
                   <GithubMark className="size-4" />
                   GitHub
@@ -67,7 +67,7 @@ export function Contact() {
                   href={profile.linkedin}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="inline-flex items-center gap-2 transition-colors hover:text-lilac-deep"
+                  className="inline-flex items-center gap-2 py-1.5 transition-colors hover:text-lilac-deep"
                 >
                   <LinkedinMark className="size-4" />
                   LinkedIn

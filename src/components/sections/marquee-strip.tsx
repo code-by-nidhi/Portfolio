@@ -5,7 +5,7 @@ export function MarqueeStrip() {
   const doubled = [...marqueeItems, ...marqueeItems];
 
   return (
-    <section aria-label="Technologies" className="scene-near relative py-6">
+    <section aria-label="Technologies" className="scene-near relative z-10 overflow-hidden py-6">
       <div
         className="border-y border-hairline bg-surface/70 py-5 backdrop-blur-sm"
         style={{ transform: "rotateX(6deg)" }}
