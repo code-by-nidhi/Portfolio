@@ -1,0 +1,123 @@
+"use client";
+
+import { useReducedMotion } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
+import { useEffect, useRef } from "react";
+import { profile } from "@/data/profile";
+
+/**
+ * One fixed-position portrait that travels from the hero into the About
+ * section as the visitor scrolls.
+ *
+ * Rather than animating to hard-coded coordinates, every frame reads the live
+ * rects of the two `[data-portrait-slot]` boxes and interpolates between them.
+ * That keeps the flight correct through resizes, font loading and any layout
+ * change, because the destination is always measured rather than assumed —
+ * GSAP only supplies the scrubbed progress value.
+ */
+export function PortraitFlight() {
+  const flyRef = useRef<HTMLDivElement>(null);
+  const reduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    const fly = flyRef.current;
+    if (!fly || reduceMotion) return;
+
+    const heroSlot = document.querySelector<HTMLElement>(
+      '[data-portrait-slot="hero"]',
+    );
+    const aboutSlot = document.querySelector<HTMLElement>(
+      '[data-portrait-slot="about"]',
+    );
+    const about = document.querySelector<HTMLElement>("#about");
+    if (!heroSlot || !aboutSlot || !about) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Scroll drives this single number; scrub supplies the smoothing.
+    const state = { progress: 0 };
+    const tween = gsap.to(state, {
+      progress: 1,
+      // Linear: the portrait should track the scroll, not race through the
+      // middle of the range and then coast.
+      ease: "none",
+      scrollTrigger: {
+        trigger: about,
+        // Starts the moment the About section enters the viewport and ends
+        // as it settles, spreading the travel over a long scroll distance.
+        // A start above 100% would clamp to a negative scroll, which would
+        // leave the portrait already part-way along at page load.
+        start: "top bottom",
+        end: "top 12%",
+        scrub: 1,
+        invalidateOnRefresh: true,
+      },
+    });
+
+    let revealed = false;
+    let lastMaskStop = -1;
+
+    const render = () => {
+      const from = heroSlot.getBoundingClientRect();
+      const to = aboutSlot.getBoundingClientRect();
+      const p = state.progress;
+
+      const x = from.left + (to.left - from.left) * p;
+      const y = from.top + (to.top - from.top) * p;
+      const width = from.width + (to.width - from.width) * p;
+
+      // A slight tilt at the midpoint, flat again once it lands.
+      const tilt = Math.sin(p * Math.PI) * -4;
+
+      fly.style.width = `${width}px`;
+      fly.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${tilt}deg)`;
+
+      // In the hero the portrait fades out at the bottom so it melts into the
+      // page; inside the badge window it should read as a printed photo. The
+      // stop is quantised so the mask is only rewritten a handful of times.
+      const maskStop = Math.round(88 + 12 * p);
+      if (maskStop !== lastMaskStop) {
+        lastMaskStop = maskStop;
+        const mask = `linear-gradient(to bottom, #000 ${maskStop}%, transparent)`;
+        fly.style.maskImage = mask;
+        fly.style.webkitMaskImage = mask;
+      }
+
+      if (!revealed && width > 0) {
+        revealed = true;
+        gsap.to(fly, { autoAlpha: 1, duration: 0.3 });
+      }
+    };
+
+    render();
+    gsap.ticker.add(render);
+
+    return () => {
+      gsap.ticker.remove(render);
+      tween.scrollTrigger?.kill();
+      tween.kill();
+    };
+  }, [reduceMotion]);
+
+  if (reduceMotion) return null;
+
+  return (
+    <div
+      ref={flyRef}
+      aria-hidden
+      className="pointer-events-none fixed left-0 top-0 z-30 origin-top opacity-0 will-change-transform"
+    >
+      <Image
+        src="/portrait.png"
+        alt={`${profile.name}, ${profile.role}`}
+        width={905}
+        height={1198}
+        priority
+        sizes="(max-width: 640px) 70vw, 24rem"
+        className="h-auto w-full"
+      />
+    </div>
+  );
+}

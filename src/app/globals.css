@@ -1,0 +1,296 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Design tokens — pastel, formal, dimensional
+   ============================================================ */
+@theme {
+  /* Surfaces */
+  --color-ivory: #faf8f5;
+  --color-shell: #f3eff9;
+  --color-surface: #ffffff;
+
+  /* Ink */
+  --color-ink: #262231;
+  --color-ink-soft: #4d4759;
+  --color-ink-muted: #7d7689;
+
+  /* Pastel accents */
+  --color-lilac: #b9aee8;
+  --color-lilac-deep: #6e5fb0;
+  --color-lilac-mist: #eeeafb;
+
+  --color-mint: #a8d9c6;
+  --color-mint-deep: #3d8a72;
+  --color-mint-mist: #e6f5ef;
+
+  --color-blush: #f2bfc4;
+  --color-blush-deep: #b45f6c;
+  --color-blush-mist: #fceef0;
+
+  --color-sky: #a9c9ec;
+  --color-sky-deep: #46739f;
+  --color-sky-mist: #e9f1fa;
+
+  --color-sand: #f2d6ae;
+  --color-sand-deep: #a1783c;
+  --color-sand-mist: #fbf1e3;
+
+  /* Structural */
+  --color-hairline: #e6e0ee;
+
+  /* Typography */
+  --font-display: var(--font-playfair), "Iowan Old Style", Georgia, serif;
+  --font-wordmark: var(--font-poppins), "Futura", ui-sans-serif, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-code), ui-monospace, "SF Mono", monospace;
+
+  /* Motion */
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ============================================================
+   Base — everything here must stay beatable by utilities,
+   which is why it lives in a layer rather than at top level.
+   ============================================================ */
+@layer base {
+  :root {
+    color-scheme: light;
+    --depth-shadow:
+      0 1px 1px rgba(38, 34, 49, 0.03), 0 2px 4px rgba(38, 34, 49, 0.04),
+      0 8px 16px rgba(110, 95, 176, 0.06), 0 18px 40px rgba(110, 95, 176, 0.07);
+    --depth-shadow-lifted:
+      0 2px 2px rgba(38, 34, 49, 0.04), 0 6px 12px rgba(38, 34, 49, 0.05),
+      0 16px 32px rgba(110, 95, 176, 0.1), 0 32px 64px rgba(110, 95, 176, 0.12);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    background-color: var(--color-ivory);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--color-lilac-mist);
+    color: var(--color-lilac-deep);
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-shell);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-lilac);
+    border-radius: 999px;
+    border: 3px solid var(--color-shell);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-lilac-deep);
+  }
+}
+
+/* ============================================================
+   3D scene primitives
+   ============================================================ */
+@layer components {
+  .scene {
+    perspective: 1400px;
+    perspective-origin: 50% 40%;
+  }
+
+  .scene-near {
+    perspective: 900px;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  /* A card that physically sits above the page */
+  .card-3d {
+    position: relative;
+    background: var(--color-surface);
+    border: 1px solid var(--color-hairline);
+    border-radius: 1.25rem;
+    box-shadow: var(--depth-shadow);
+    transition:
+      box-shadow 0.5s var(--ease-out-quint),
+      border-color 0.5s var(--ease-out-quint),
+      transform 0.5s var(--ease-out-quint);
+  }
+
+  .card-3d:hover {
+    box-shadow: var(--depth-shadow-lifted);
+    border-color: color-mix(in srgb, var(--color-lilac) 55%, transparent);
+  }
+
+  /* Top highlight that sells the extrusion */
+  .card-3d::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(
+      160deg,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(255, 255, 255, 0) 42%
+    );
+  }
+
+  /* Contact shadow beneath the card */
+  .card-3d::after {
+    content: "";
+    position: absolute;
+    inset-inline: 6%;
+    bottom: -10px;
+    height: 18px;
+    border-radius: 999px;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(110, 95, 176, 0.18),
+      rgba(110, 95, 176, 0) 70%
+    );
+    filter: blur(4px);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* Pressable, extruded control */
+  .btn-3d {
+    --btn-face: var(--color-ink);
+    --btn-edge: #0f0d16;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.875rem;
+    background: var(--btn-face);
+    box-shadow:
+      0 4px 0 var(--btn-edge),
+      0 10px 22px rgba(38, 34, 49, 0.22);
+    transform: translateY(0);
+    transition:
+      transform 0.18s var(--ease-out-quint),
+      box-shadow 0.18s var(--ease-out-quint);
+  }
+
+  .btn-3d:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 6px 0 var(--btn-edge),
+      0 16px 30px rgba(38, 34, 49, 0.26);
+  }
+
+  .btn-3d:active {
+    transform: translateY(3px);
+    box-shadow:
+      0 1px 0 var(--btn-edge),
+      0 4px 10px rgba(38, 34, 49, 0.2);
+  }
+
+  .btn-3d-soft {
+    --btn-face: var(--color-surface);
+    --btn-edge: #ded6ec;
+    color: var(--color-ink);
+    border: 1px solid var(--color-hairline);
+    box-shadow:
+      0 4px 0 var(--btn-edge),
+      0 10px 20px rgba(110, 95, 176, 0.12);
+  }
+
+  .btn-3d-soft:hover {
+    box-shadow:
+      0 6px 0 var(--btn-edge),
+      0 16px 28px rgba(110, 95, 176, 0.16);
+  }
+
+  .btn-3d-soft:active {
+    box-shadow:
+      0 1px 0 var(--btn-edge),
+      0 4px 10px rgba(110, 95, 176, 0.14);
+  }
+
+  /* Ambient background texture */
+  .grid-plane {
+    background-image:
+      linear-gradient(to right, rgba(110, 95, 176, 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(110, 95, 176, 0.07) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(
+      ellipse 80% 60% at 50% 0%,
+      #000 20%,
+      transparent 75%
+    );
+  }
+
+  .noise-veil {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    opacity: 0.18;
+    mix-blend-mode: multiply;
+  }
+
+  .marquee-track {
+    animation: marquee-drift 38s linear infinite;
+    will-change: transform;
+  }
+
+  .marquee-mask {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 12%,
+      #000 88%,
+      transparent
+    );
+  }
+
+  .float-slow {
+    animation: float-drift 11s ease-in-out infinite;
+  }
+}
+
+/* ============================================================
+   Keyframes
+   ============================================================ */
+@keyframes marquee-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes float-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -18px, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .marquee-track,
+  .float-slow {
+    animation: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
