@@ -6,12 +6,15 @@ export function SectionHeading({
   description,
   align = "left",
   className,
+  titleClassName,
 }: {
   eyebrow: string;
   title: string;
   description?: string;
   align?: "left" | "center";
   className?: string;
+  /** Override the headline scale where a section has to fit one screen. */
+  titleClassName?: string;
 }) {
   return (
     <div
@@ -29,7 +32,12 @@ export function SectionHeading({
         <span className="h-px w-6 bg-lilac" />
         {eyebrow}
       </span>
-      <h2 className="mt-4 font-display text-3xl leading-tight text-ink sm:text-4xl md:text-[2.75rem]">
+      <h2
+        className={cn(
+          "mt-4 font-display text-3xl leading-tight text-ink sm:text-4xl md:text-[2.75rem]",
+          titleClassName,
+        )}
+      >
         {title}
       </h2>
       {description ? (

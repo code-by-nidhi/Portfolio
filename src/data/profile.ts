@@ -19,6 +19,9 @@ export const profile = {
     "Full-stack engineering across the MERN stack, paired with analytics that turn raw tables into decisions people can act on.",
   bio: "I'm a Computer Science graduate working across two closely related crafts: building production-style web applications with React, Next.js, Node and MongoDB, and analysing the data those applications generate with SQL, Python and modern BI tooling.",
   aboutTitle: "An engineer who kept following the data",
+  // TODO: placeholder copy — rewrite in your own voice.
+  aboutSecondary:
+    "Alongside client work I coach one-on-one, walking students and junior developers through the MERN stack an hour at a time. I'm open to full-time roles and freelance projects, remote or on-site.",
   stats: [
     { value: "3+", label: "Full-stack products built" },
     { value: "2", label: "Disciplines, one workflow" },

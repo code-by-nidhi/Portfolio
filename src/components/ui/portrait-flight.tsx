@@ -25,14 +25,26 @@ export function PortraitFlight() {
     const fly = flyRef.current;
     if (!fly || reduceMotion) return;
 
-    const heroSlot = document.querySelector<HTMLElement>(
-      '[data-portrait-slot="hero"]',
-    );
-    const aboutSlot = document.querySelector<HTMLElement>(
-      '[data-portrait-slot="about"]',
-    );
+    // Resolved per frame rather than captured once. A detached node reports a
+    // zero rect, so holding a stale reference collapses the portrait into the
+    // top-left corner instead of landing it in the badge — which is what a
+    // hot reload of either section used to do, and what any future conditional
+    // render of a slot would do in production.
+    const cache: Record<"hero" | "about", HTMLElement | null> = {
+      hero: null,
+      about: null,
+    };
+
+    const slot = (variant: "hero" | "about") => {
+      const cached = cache[variant];
+      if (cached?.isConnected) return cached;
+      return (cache[variant] = document.querySelector<HTMLElement>(
+        `[data-portrait-slot="${variant}"]`,
+      ));
+    };
+
     const about = document.querySelector<HTMLElement>("#about");
-    if (!heroSlot || !aboutSlot || !about) return;
+    if (!slot("hero") || !slot("about") || !about) return;
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -60,6 +72,10 @@ export function PortraitFlight() {
     let lastMaskStop = -1;
 
     const render = () => {
+      const heroSlot = slot("hero");
+      const aboutSlot = slot("about");
+      if (!heroSlot || !aboutSlot) return;
+
       const from = heroSlot.getBoundingClientRect();
       const to = aboutSlot.getBoundingClientRect();
       const p = state.progress;

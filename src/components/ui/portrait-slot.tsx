@@ -9,7 +9,7 @@ import { profile } from "@/data/profile";
 // whose own height is `auto` and collapse to zero. The about slot is the photo
 // window of the ID badge, so it takes its width from the card.
 const SLOT_STYLES = {
-  hero: "h-[30vh] aspect-[905/1198] shrink-0 sm:h-[min(29rem,52vh)]",
+  hero: "h-[38vh] aspect-[905/1198] shrink-0 sm:h-[min(29rem,52vh)]",
   about: "w-full aspect-[905/1198] overflow-hidden",
 } as const;
 

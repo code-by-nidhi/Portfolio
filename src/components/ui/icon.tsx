@@ -15,13 +15,17 @@ import {
   Handshake,
   GraduationCap,
   Layers,
+  Palette,
   LayoutDashboard,
   MicVocal,
   Server,
+  ShoppingCart,
   Sparkles,
   Table2,
   Terminal,
   Workflow,
+  Wrench,
+  Zap,
   type LucideIcon,
 } from "lucide-react";
 import type { IconName } from "@/types";
@@ -50,6 +54,10 @@ const registry: Record<IconName, LucideIcon> = {
   dance: Drama,
   globe: Globe,
   handshake: Handshake,
+  zap: Zap,
+  palette: Palette,
+  cart: ShoppingCart,
+  wrench: Wrench,
 };
 
 export function Icon({

@@ -22,7 +22,11 @@ export type IconName =
   | "music"
   | "dance"
   | "globe"
-  | "handshake";
+  | "handshake"
+  | "zap"
+  | "palette"
+  | "cart"
+  | "wrench";
 
 export type Discipline = "engineering" | "analytics";
 

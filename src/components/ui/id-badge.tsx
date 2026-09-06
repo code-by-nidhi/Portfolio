@@ -14,7 +14,10 @@ export function IdBadge({ children }: { children: ReactNode }) {
   return (
     <div className="flex w-full max-w-[20rem] flex-col items-center sm:max-w-[21rem]">
       {/* ---------- Lanyard ---------- */}
-      <div aria-hidden className="relative -mb-2 flex h-44 w-full justify-center">
+      <div
+        aria-hidden
+        className="relative -mb-2 flex h-40 w-full justify-center sm:h-44 lg:h-32"
+      >
         {/* The ribbon runs up past this box so the badge reads as hanging
             rather than floating, but stays inside the About section — it must
             not cross the tech strip above. Its top dissolves rather than

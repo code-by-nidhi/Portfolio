@@ -5,8 +5,8 @@ export const timeline: TimelineEntry[] = [
   {
     id: "cs-degree",
     period: "Foundation",
-    title: "B.Sc. Computer Science",
-    organisation: "University",
+    title: "B.Tech Computer Science & Engineering",
+    organisation: "Guru Nanak Dev Engineering College",
     description:
       "Data structures, databases and statistics — the groundwork both halves of my practice still rest on.",
     icon: "graduation",

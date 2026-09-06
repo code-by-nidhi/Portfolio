@@ -3,8 +3,10 @@ import { Contact } from "@/components/sections/contact";
 import { Hero } from "@/components/sections/hero";
 import { Journey } from "@/components/sections/journey";
 import { MarqueeStrip } from "@/components/sections/marquee-strip";
-import { Practice } from "@/components/sections/practice";
+import { Resume } from "@/components/sections/resume";
+import { Services } from "@/components/sections/services";
 import { Skills } from "@/components/sections/skills";
+import { Why } from "@/components/sections/why";
 import { Work } from "@/components/sections/work";
 import { PortraitFlight } from "@/components/ui/portrait-flight";
 
@@ -16,7 +18,9 @@ export default function HomePage() {
       <Hero />
       <MarqueeStrip />
       <About />
-      <Practice />
+      <Resume />
+      <Services />
+      <Why />
       <Work />
       <Skills />
       <Journey />
